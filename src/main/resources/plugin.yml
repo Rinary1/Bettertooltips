@@ -1,5 +1,5 @@
-name: Tooltips
-main: fi.septicuss.tooltips.Tooltips
+name: Better Tooltips
+main: fi.septicuss.bettertooltips.Tooltips
 version: ${project.version}
 api-version: 1.16
 
