@@ -1,12 +1,16 @@
-gem:
-   path: "tooltips:example-icons/gem.png"
-   ascent: 2
-   height: 8
-box:
-   path: "tooltips:example-icons/box.png"
+right-click:
+   path: "tooltips:icons/right-click.png"
    ascent: 0
    height: 4
-right-click:
-   path: "tooltips:example-icons/right-click.png"
+left-click:
+   path: "tooltips:icons/left-click.png"
+   ascent: 0
+   height: 4
+black-right-click:
+   path: "tooltips:icons/black-right-click.png"
+   ascent: 0
+   height: 4
+black-left-click:
+   path: "tooltips:icons/black-left-click.png"
    ascent: 0
    height: 4
