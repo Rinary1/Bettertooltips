@@ -1,4 +1,6 @@
 # Better tooltips
+
+ # Still in Progress
 A fork of fancy tooltips plugin,
 
 It aims to improve the functionality of the base plugin, such as:
