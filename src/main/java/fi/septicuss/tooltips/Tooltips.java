@@ -1,4 +1,4 @@
-package fi.septicuss.tooltips;
+package fi.septicuss.bettertooltips;
 
 import java.io.File;
 import java.util.List;
