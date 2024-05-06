@@ -1,9 +1,9 @@
 name: Better Tooltips
 main: fi.septicuss.bettertooltips.Tooltips
 version: ${project.version}
-api-version: 1.16
+api-version: 1.20
 
-author: Septicuss
+author: Septicuss, Rinary
 
 depend: [ ProtocolLib ]
 softdepend: [ PlaceholderAPI, ItemsAdder, Oraxen, WorldGuard, WorldEdit, MythicCrucible, MythicMobs, Citizens ]

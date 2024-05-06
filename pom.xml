@@ -9,8 +9,8 @@
 	<description>Fancy tooltips</description>
 
 	<groupId>fi.septicuss</groupId>
-	<artifactId>tooltips</artifactId>
-	<version>1.7.1</version>
+	<artifactId>bettertooltips</artifactId>
+	<version>1.7.2</version>
 
 	<build>
 		<resources>
