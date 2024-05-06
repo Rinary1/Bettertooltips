@@ -15,22 +15,34 @@ public class LanguageLoader {
     HashMap<String, String> translationMap;
 
     public LanguageLoader(Tooltips plugin){
-        File languageDirectory = new File(plugin.getDataFolder(), "/");
-        File defaultLanguageFile = new File(plugin.getDataFolder(), "/messages.yml");
+        translationMap = new HashMap<>(); // init TranslateMap
+
+        File languageDirectory = new File(plugin.getDataFolder(), "languages/");
+        File defaultLanguageFile = new File(plugin.getDataFolder(), "languages/en_US.yml");
 
         if (!languageDirectory.isDirectory()){
             languageDirectory.mkdir();
-            try {
-                InputStream stream = plugin.getResource("messages.yml");
-                FileUtils.copyInputStreamToFile(stream, defaultLanguageFile);
-            }
-            catch (IOException e) {
-                e.printStackTrace();
+            InputStream stream = plugin.getResource("en_US.yml");
+            if (stream != null) {
+                try {
+                    FileUtils.copyInputStreamToFile(stream, defaultLanguageFile);
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
-        FileConfiguration translations = YamlConfiguration.loadConfiguration(defaultLanguageFile);
-        for (String translation : translations.getKeys(false)) {
-            translationMap.put(translation, translations.getString(translation));
+        if (plugin.getConfig().getString("locale") != null && plugin.getConfig().getString("locale").equals("en_US")) {
+            FileConfiguration translations = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "languages/" + plugin.getConfig().getString("locale") + ".yml"));
+            for (String translation : translations.getKeys(false)) {
+                translationMap.put(translation, translations.getString(translation));
+            }
+        }
+        else{
+            FileConfiguration translations = YamlConfiguration.loadConfiguration(defaultLanguageFile);
+            for (String translation : translations.getKeys(false)) {
+                translationMap.put(translation, translations.getString(translation));
+            }
         }
     }
     public String get(String path){

@@ -1,3 +1,6 @@
+# Custom Locale, located in /plugins/Tooltips/languages
+locale: en_US
+
 # How often, in ticks the plugin will attempt to check the conditions
 condition-check-frequency: 3
 

@@ -150,6 +150,8 @@ public class Tooltips extends JavaPlugin {
 	public void onEnable() {
 		protocolManager = ProtocolLibrary.getProtocolManager();
 
+		Bukkit.getServer().getConsoleSender().sendMessage(langLoader.get("messages_loaded"));
+
 		FileSetup.performMigration(this);
 		FileSetup.setupFiles(this);
 
