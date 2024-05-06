@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import fi.septicuss.bettertooltips.Tooltips;
 import fi.septicuss.bettertooltips.commands.TooltipsSubCommand;
