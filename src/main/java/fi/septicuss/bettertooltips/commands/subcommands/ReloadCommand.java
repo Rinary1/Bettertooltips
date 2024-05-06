@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import fi.septicuss.bettertooltips.Tooltips;
 import fi.septicuss.bettertooltips.commands.TooltipsSubCommand;
+import fi.septicuss.bettertooltips.utils.LanguageLoader;
 import fi.septicuss.bettertooltips.utils.Colors;
 import fi.septicuss.bettertooltips.utils.Messaging;
 
@@ -21,9 +22,9 @@ public class ReloadCommand implements TooltipsSubCommand {
 
 	@Override
 	public void onCommand(CommandSender sender, Command command, String label, String[] args) {
-		Messaging.send(sender, Colors.PLUGIN + "Reloading plugin...");
+		Messaging.send(sender, Colors.PLUGIN + Tooltips.get().langLoader.get("reloading_message")); //"Reloading plugin..."
 		plugin.reload();
-		Messaging.send(sender, Colors.PLUGIN + "Reloaded!");
+		Messaging.send(sender, Colors.PLUGIN + Tooltips.get().langLoader.get("reloaded_message"));
 	}
 
 	@Override

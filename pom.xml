@@ -175,5 +175,10 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.16.1</version> <!-- or the latest version available -->
+		</dependency>
 	</dependencies>
 </project>

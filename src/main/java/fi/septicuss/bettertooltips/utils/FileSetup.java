@@ -37,13 +37,6 @@ public class FileSetup {
 	public static void setupConfigs(Tooltips plugin) {
 
 		try {
-			setupMessages(plugin);
-		} catch (IOException e) {
-			Tooltips.warn("Failed to set up messages.yml");
-			e.printStackTrace();
-		}
-
-		try {
 			setupMainConfig(plugin);
 		} catch (IOException e) {
 			Tooltips.warn("Failed to set up config.yml");
@@ -56,35 +49,6 @@ public class FileSetup {
 			Tooltips.warn("Failed to set up secondary configs");
 			e.printStackTrace();
 		}
-
-	}
-
-	private static void setupMessages(Tooltips plugin) throws IOException {
-
-		final String internalPath = "default/config/messages.yml";
-		final String targetPath = "messages.yml";
-
-		final File dataFolder = plugin.getDataFolder();
-		final File existingConfigFile = new File(dataFolder, targetPath);
-
-		if (!existingConfigFile.exists()) {
-			copyFromJar(plugin, internalPath, existingConfigFile);
-		}
-
-		// Update existing config if needed
-		final InputStreamReader reader = new InputStreamReader(plugin.getResource(internalPath));
-
-		final FileConfiguration existingConfig = YamlConfiguration.loadConfiguration(existingConfigFile);
-		final FileConfiguration internalConfig = YamlConfiguration.loadConfiguration(reader);
-
-		for (String key : internalConfig.getKeys(true)) {
-			if (!existingConfig.contains(key)) {
-				existingConfig.set(key, internalConfig.get(key));
-				existingConfig.setComments(key, internalConfig.getComments(key));
-			}
-		}
-
-		existingConfig.save(existingConfigFile);
 
 	}
 

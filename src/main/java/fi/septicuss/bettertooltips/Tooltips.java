@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
+import fi.septicuss.bettertooltips.utils.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
@@ -78,10 +79,6 @@ import fi.septicuss.bettertooltips.pack.impl.ThemeGenerator;
 import fi.septicuss.bettertooltips.tooltip.TooltipManager;
 import fi.septicuss.bettertooltips.tooltip.building.text.TextLine;
 import fi.septicuss.bettertooltips.tooltip.runnable.TooltipRunnableManager;
-import fi.septicuss.bettertooltips.utils.FileSetup;
-import fi.septicuss.bettertooltips.utils.FileUtils;
-import fi.septicuss.bettertooltips.utils.Messaging;
-import fi.septicuss.bettertooltips.utils.Utils;
 import fi.septicuss.bettertooltips.utils.cache.furniture.FurnitureCache;
 import fi.septicuss.bettertooltips.utils.cache.player.LookingAtCache;
 import fi.septicuss.bettertooltips.utils.cache.tooltip.TooltipCache;
@@ -528,6 +525,8 @@ public class Tooltips extends JavaPlugin {
 	public boolean isUseSpaces() {
 		return USE_SPACES;
 	}
+
+	public LanguageLoader langLoader = new LanguageLoader(this);
 
 	public static void warn(String message) {
 		Messaging.send(Bukkit.getConsoleSender(), ChatColor.RED + "[Tooltips] WARNING: " + message);
