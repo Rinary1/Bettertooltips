@@ -1,6 +1,7 @@
 package fi.septicuss.bettertooltips;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
@@ -87,6 +88,7 @@ import fi.septicuss.bettertooltips.utils.font.Widths.SizedChar;
 import fi.septicuss.bettertooltips.utils.placeholder.Placeholders;
 import fi.septicuss.bettertooltips.utils.placeholder.impl.SimplePlaceholderParser;
 import fi.septicuss.bettertooltips.utils.variable.Variables;
+import org.intellij.lang.annotations.Language;
 
 public class Tooltips extends JavaPlugin {
 
@@ -113,7 +115,7 @@ public class Tooltips extends JavaPlugin {
 
 	// ------------------------------------------------------
 
-	public Tooltips() {
+	public Tooltips() throws IOException {
 		INSTANCE = this;
 		SUPPORT_DISPLAY_ENTITIES = checkIfSupportsDisplayEntities();
 		LOGGER = getLogger();
@@ -150,10 +152,11 @@ public class Tooltips extends JavaPlugin {
 	public void onEnable() {
 		protocolManager = ProtocolLibrary.getProtocolManager();
 
-		Bukkit.getServer().getConsoleSender().sendMessage(langLoader.get("messages_loaded"));
-
+		LanguageLoader.setupLanguage(this);
 		FileSetup.performMigration(this);
 		FileSetup.setupFiles(this);
+
+		Bukkit.getServer().getConsoleSender().sendMessage(getConfig().getString("messages_loaded", "Messages file was loaded!"));
 
 		loadVariables();
 		loadIntegrations();
@@ -318,6 +321,7 @@ public class Tooltips extends JavaPlugin {
 		clearCache();
 		fillCache();
 
+		LanguageLoader.setupLanguage(this);
 		FileSetup.setupFiles(this);
 
 		USE_SPACES = this.getConfig().getBoolean("use-spaces", true);
@@ -527,8 +531,6 @@ public class Tooltips extends JavaPlugin {
 	public boolean isUseSpaces() {
 		return USE_SPACES;
 	}
-
-	public LanguageLoader langLoader = new LanguageLoader(this);
 
 	public static void warn(String message) {
 		Messaging.send(Bukkit.getConsoleSender(), ChatColor.RED + "[Tooltips] WARNING: " + message);

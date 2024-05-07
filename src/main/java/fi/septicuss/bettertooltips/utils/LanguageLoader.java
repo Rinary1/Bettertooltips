@@ -3,49 +3,64 @@ package fi.septicuss.bettertooltips.utils;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import org.apache.commons.io.FileUtils;
+import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 import fi.septicuss.bettertooltips.Tooltips;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.util.FileUtil;
 
-public class LanguageLoader {
-    HashMap<String, String> translationMap;
+public class LanguageLoader  {
 
-    public LanguageLoader(Tooltips plugin){
-        translationMap = new HashMap<>(); // init TranslateMap
+    public static void setupLanguage(Tooltips plugin) {
 
-        File languageDirectory = new File(plugin.getDataFolder(), "languages/");
-        File defaultLanguageFile = new File(plugin.getDataFolder(), "languages/en_US.yml");
-
-        if (!languageDirectory.isDirectory()){
-            languageDirectory.mkdir();
-            InputStream stream = plugin.getResource("en_US.yml");
-            if (stream != null) {
-                try {
-                    FileUtils.copyInputStreamToFile(stream, defaultLanguageFile);
-                }
-                catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+        try {
+            LanguageLoader(plugin);
+        } catch (IOException e) {
+            Tooltips.warn("Failed to set up messages.yml");
+            e.printStackTrace();
         }
-        if (plugin.getConfig().getString("locale") != null && plugin.getConfig().getString("locale").equals("en_US")) {
-            FileConfiguration translations = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "languages/" + plugin.getConfig().getString("locale") + ".yml"));
-            for (String translation : translations.getKeys(false)) {
-                translationMap.put(translation, translations.getString(translation));
-            }
-        }
-        else{
-            FileConfiguration translations = YamlConfiguration.loadConfiguration(defaultLanguageFile);
-            for (String translation : translations.getKeys(false)) {
-                translationMap.put(translation, translations.getString(translation));
-            }
-        }
+
     }
-    public String get(String path){
-        return translationMap.get(path);
+
+    public static void LanguageLoader(Tooltips plugin) throws IOException {
+
+        final String internalPath = "default/config/messages.yml";
+        final String targetPath = "messages.yml";
+
+        final File dataFolder = plugin.getDataFolder();
+        final File existingConfigFile = new File(dataFolder, targetPath);
+
+        if (!existingConfigFile.exists()) {
+            copyFromJar(plugin, internalPath, existingConfigFile);
+        }
+
+        // Update existing config if needed
+        final InputStreamReader reader = new InputStreamReader(plugin.getResource(internalPath));
+
+        final FileConfiguration existingConfig = YamlConfiguration.loadConfiguration(existingConfigFile);
+        final FileConfiguration internalConfig = YamlConfiguration.loadConfiguration(reader);
+
+        for (String key : internalConfig.getKeys(true)) {
+            if (!existingConfig.contains(key)) {
+                existingConfig.set(key, "'" + "\"" + internalConfig.get(key) + "\"" + "'");
+                existingConfig.setComments(key, internalConfig.getComments(key));
+            }
+        }
+
+        existingConfig.save(existingConfigFile);
+
+
+    }
+
+    public static void copyFromJar(Tooltips plugin, String internalPath, File targetFile) throws IOException {
+        final InputStream stream = plugin.getResource(internalPath);
+        if (stream == null)
+            return;
+
+        targetFile.getParentFile().mkdirs();
+
+        Files.copy(stream, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
     }
 }
